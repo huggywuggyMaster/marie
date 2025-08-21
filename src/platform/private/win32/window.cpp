@@ -1,12 +1,13 @@
 #include "intern.h"
-#include "platform/public/platform.h"
-#include <errhandlingapi.h>
-#include <winuser.h>
 #include <assert/public/assert.h>
+#include <winuser.h>
 
 using namespace marie;
 
 #define windowData static_cast<WindowData*>(data)
+
+Window* currentWindow = nullptr;
+static bool keys[512];
 
 static LRESULT windowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -16,6 +17,19 @@ static LRESULT windowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
         {
             PostQuitMessage(0);
             return 0;
+        }
+        case WM_KEYDOWN:
+        {
+            keys[wParam] = true;
+            break;
+        }
+
+        case WM_KEYUP:
+        case WM_SYSKEYUP:
+        {
+            MessageBox(nullptr, "", "", MB_HELP);
+            keys[wParam] = false;
+            break;
         }
     }
 
@@ -67,6 +81,11 @@ void Window::show()
     ShowWindow(windowData->hwnd, SW_SHOW);
 }
 
+void Window::setCurrent()
+{
+    currentWindow = this;
+}
+
 void Window::setShouldClose(bool x)
 {
     windowData->properties.shouldClose = x;
@@ -107,4 +126,14 @@ void WindowData::processMessage()
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
+}
+
+bool marie::isKeyDown(KeyCode key)
+{
+    return keys[static_cast<int>(key)];
+}
+
+bool marie::isKeyUp(KeyCode key)
+{
+    return !keys[static_cast<int>(key)];
 }

@@ -3,6 +3,8 @@
 #include <platform/public/platform.h>
 #include <windows.h>
 
+using namespace marie;
+
 struct WindowProperties
 {
     int width;
@@ -21,3 +23,5 @@ struct WindowData
     void createHwnd();
     void processMessage();
 };
+
+extern Window* currentWindow;

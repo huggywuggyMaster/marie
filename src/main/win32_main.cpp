@@ -1,4 +1,5 @@
 #include <Windows.h>
+#include <iostream>
 #include <winuser.h>
 #include <platform/public/platform.h>
 
@@ -9,10 +10,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     marie::Window window;
     window.createWindow(800, 600, "Marie");
     window.show();
-
+    window.setCurrent();
+    
     while (!window.shouldClose())
     {
-        window.pollEvents();
+        //window.pollEvents();
+
+        if (marie::isKeyDown(marie::KeyCode::A))
+        {
+            std::cout << "A" << std::endl; // I hate you sooo much!
+        }
     }
 
     return 0;
