@@ -1,8 +1,9 @@
 #include "intern.h"
 #include "platform/public/platform.h"
-#include <string>
-#include <iostream>
+#include <cstddef>
+#include <errhandlingapi.h>
 #include <winuser.h>
+#include <assert/public/assert.h>
 
 using namespace marie;
 
@@ -86,11 +87,7 @@ void WindowData::createHwnd()
         nullptr
     );
 
-    if (hwnd == nullptr)
-    {
-        std::cerr << "Failed to create Window! Error: " + std::to_string(GetLastError());
-    }
-
+    check(hwnd == nullptr);
 }
 
 void WindowData::processMessage()
