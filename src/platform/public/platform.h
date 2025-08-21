@@ -12,6 +12,7 @@ namespace marie
         bool shouldClose();
         void pollEvents();
         void show();
+        void setShouldClose(bool x);
     private:
         void* data;
     };

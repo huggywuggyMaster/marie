@@ -1,6 +1,5 @@
 #include "intern.h"
 #include "platform/public/platform.h"
-#include <cstddef>
 #include <errhandlingapi.h>
 #include <winuser.h>
 #include <assert/public/assert.h>
@@ -68,6 +67,11 @@ void Window::show()
     ShowWindow(windowData->hwnd, SW_SHOW);
 }
 
+void Window::setShouldClose(bool x)
+{
+    windowData->properties.shouldClose = x;
+}
+
 void WindowData::createHwnd()
 {
     RECT windowRect = {0, 0, properties.width, properties.height};
@@ -87,7 +91,7 @@ void WindowData::createHwnd()
         nullptr
     );
 
-    check(hwnd == nullptr);
+    checkm(hwnd != nullptr, "Failed to create Window!");
 }
 
 void WindowData::processMessage()
