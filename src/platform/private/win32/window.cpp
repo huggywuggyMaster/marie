@@ -91,7 +91,7 @@ void WindowData::createHwnd()
         nullptr
     );
 
-    checkm(hwnd != nullptr, "Failed to create Window!");
+    checkm(hwnd == nullptr, "Failed to create Window!");
 }
 
 void WindowData::processMessage()
